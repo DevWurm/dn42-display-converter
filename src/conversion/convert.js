@@ -23,7 +23,7 @@ export function convertObjects(prefixesObject, metadataObject, parentPrefix) {
     const [childPrefixesObject, childMetadataObject] = convertObjects(child, convertedMetadataObject, currentPrefix);
     Object.assign(convertedMetadataObject, childMetadataObject);
     return childPrefixesObject;
-  }
+  });
 
   return [convertedPrefixesObject, convertedMetadataObject];  
 }	  

@@ -3,11 +3,13 @@
 import http from "http";
 import convert from "./conversion/convert";
 
-const url = process.argv[process.argv.length - 1]
+const prefixesUrl = process.argv[process.argv.length - 2]
+const metadataUrl = process.argv[process.argv.length - 1]
+const urls = [prefixesUrl, metadataUrl]
 
-downloadFile(url).then(data => {
-  console.log(convert(data));
-});
+Promise.all(urls.map(downloadFile), ([prefixesData, metadataData]) => {
+  [convertedPrefixesData, convertedMetadataData] = convert(prefixesData, metadataData);
+}
 
 function downloadFile(url) {
   return new Promise((resolve, reject) => {

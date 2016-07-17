@@ -1,0 +1,34 @@
+{
+  "name": "dn42-display-converter",
+  "version": "1.0.0",
+  "description": "Tool for converting the display setting in the dn42 registry-prefixes json",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src -d lib",
+    "prepublish": "npm run build",
+    "preinstall": "if [ ! -f ./lib/index.js ]; then npm run build; fi"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DevWurm/dn42-display-converter.git"
+  },
+  "keywords": [
+    "dn42",
+    "converter",
+    "json"
+  ],
+  "bin": {
+    "dn42-json-convert": "./lib/index.js"
+  },
+  "author": "DevWurm",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DevWurm/dn42-display-converter/issues"
+  },
+  "homepage": "https://github.com/DevWurm/dn42-display-converter#readme",
+  "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-preset-es2015": "^6.9.0"
+  }
+}

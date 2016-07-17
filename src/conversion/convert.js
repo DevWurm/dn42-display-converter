@@ -1,17 +1,29 @@
-export default function convert(jsonFile) {
-  const jsonObject = JSON.parse(jsonFile);
-  return JSON.stringify(convertObject(jsonObject))
+export default function convert(prefixesData, metadataData) {
+  const prefixesObject = JSON.parse(prefixesData);
+  const metadataObject = JSON.parse(metadataData);
+
+  return convertObjects(prefixesObject, metadataObject).map(JSON.stringify);
 }
 
-export function convertObject(jsonObject) {
-  const convertedJsonObject = Object.assign({}, jsonObject);
-  if (jsonObject.display == "none") {
-    convertedJsonObject.display = undefined;
+export function convertObjects(prefixesObject, metadataObject, parentPrefix) {
+  const convertedPrefixesObject = Object.assign({}, prefixesObject);
+  const convertedMetadataObject = Object.assign({}, metadataObject);
+  const currentPrefix = prefixesObject.prefix
+
+  if (prefixesObject.display == "none") {
+    convertedPrefixesObject.display = undefined;
+    if (parentPrefix && currentPrefix) {
+      convertedMetadataObject[currentPrefix] = metadataObject[parentPrefix];
+    }
   } else {
-    convertedJsonObject.display = "none";
+    convertedPrefixesObject.display = "none";
   }
 
-  convertedJsonObject.children = jsonObject.children.map(convertObject)
+  convertedPrefixesObject.children = prefixesObject.children.map(child => {
+    const [childPrefixesObject, childMetadataObject] = convertObjects(child, convertedMetadataObject, currentPrefix);
+    Object.assign(convertedMetadataObject, childMetadataObject);
+    return childPrefixesObject;
+  }
 
-  return convertedJsonObject
+  return [convertedPrefixesObject, convertedMetadataObject];  
 }	  

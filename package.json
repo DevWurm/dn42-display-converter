@@ -6,10 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf lib",
-    "build": "babel src -d lib && cp -r assets lib",
-    "build-dev": "babel src -d lib --source-maps && cp -r assets lib",
+    "build": "npm run clean && babel src -d lib && cp -r assets lib",
+    "build-dev": "npm run clean && babel src -d lib --source-maps \"both\" && cp -r assets lib",
     "prepublish": "npm run build",
-    "preinstall": "if [ ! -f ./lib/index.js ]; then npm run build; fi"
+    "preinstall": "if [ ! -f ./lib/index.js ]; then npm install && npm run build; fi"
   },
   "repository": {
     "type": "git",

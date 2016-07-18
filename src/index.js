@@ -17,15 +17,14 @@ const args = Object.assign(defaultArgs, cmdArgs);
 
 const urls = [args.prefixesUrl, args.metadataUrl];
 
+Promise.all(urls.map(downloadFile)).then(([prefixesData, metadataData]) => {
 
-Promise.all(urls.map(downloadFile), ([prefixesData, metadataData]) => {
-
-  [convertedPrefixesData, convertedMetadataData] = convert(prefixesData, metadataData);
+  const [convertedPrefixesData, convertedMetadataData] = convert(prefixesData, metadataData);
 
   mkdirs(path.resolve(process.cwd(), args.outputDir, "./data"), err => {
     if (err) return console.error(err);
 
-    copy(path.resolve(__dirname, "./assets/", path.resolve(process.cwd(), args.outputDir)), err => {
+    copy(path.resolve(__dirname, "./assets/"), path.resolve(process.cwd(), args.outputDir), err => {
       if (err) return console.error(err);
 
       writeFile(path.resolve(process.cwd(), args.outputDir, "./data/prefixes.json"), convertedPrefixesData, err => {
@@ -39,7 +38,7 @@ Promise.all(urls.map(downloadFile), ([prefixesData, metadataData]) => {
       })
     })
   })
-}, err => console.error(err));
+}).catch(reason => console.error(reason));
 
 function downloadFile(url) {
   return new Promise((resolve, reject) => {

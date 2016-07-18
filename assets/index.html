@@ -18,7 +18,7 @@
 
 
   <div id="notes">
-    <p>Data (<a href="registry-prefixes.json">prefixes</a> and <a href="registry-inetnums.json">metadata</a>) acquired from <span id="origin"></span> on <span id="date"></span>.</p>
+    <p>Data (<a href="data/prefixes.json">prefixes</a> and <a href="data/metadata.json">metadata</a>) acquired from <span id="origin"></span> on <span id="date"></span>.</p>
   </div>
 
   <div id="metadata"></div>
@@ -59,7 +59,7 @@ var arc = d3.svg.arc()
     .innerRadius(function(d) { return Math.sqrt(d.y); })
     .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); });
 
-d3.json("registry-inetnums.json", function(error, root) {
+d3.json("data/metadata.json", function(error, root) {
     d3.select("#metadata")
     .datum(root);
 
@@ -69,7 +69,7 @@ d3.json("registry-inetnums.json", function(error, root) {
 // not yet ready, all hell breaks loose. As a quick fix, wait for 1.5 seconds
 // before initialising the visualisation.
 setTimeout(function() {
-  d3.json("registry-prefixes.json", function(error, root) {
+  d3.json("data/prefixes.json", function(error, root) {
     var path = svg.datum(root).selectAll("path")
       .data(partition.nodes)
     .enter().append("svg:path")

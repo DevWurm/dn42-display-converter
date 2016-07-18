@@ -21,7 +21,7 @@
     "json"
   ],
   "bin": {
-    "dn42-json-convert": "./lib/index.js"
+    "dn42-convert": "./lib/index.js"
   },
   "author": "DevWurm",
   "license": "MIT",

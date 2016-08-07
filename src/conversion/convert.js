@@ -29,6 +29,9 @@ export function convertObjects(prefixesObject, metadataObject, parentPrefix) {
   convertedPrefixesObject.children = prefixesObject.children.map(child => {
     const [childPrefixesObject, childMetadataObject] = convertObjects(child, convertedMetadataObject, currentPrefix);
     Object.assign(convertedMetadataObject, childMetadataObject);
+    if (childPrefixesObject.display != 'none') {
+        convertedPrefixesObject.display = undefined;
+    }
     return childPrefixesObject;
   });
 
